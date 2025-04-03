@@ -305,6 +305,7 @@ class RDBMSConnector(BaseConnector):
     def table_simple_info(self):
         """Return table simple info."""
         _sql = f"""
+                SET SESSION group_concat_max_len = 100000;
                 select concat(table_name, "(" , group_concat(column_name), ")")
                 as schema_info from information_schema.COLUMNS where
                 table_schema="{self.get_current_db_name()}" group by TABLE_NAME;
